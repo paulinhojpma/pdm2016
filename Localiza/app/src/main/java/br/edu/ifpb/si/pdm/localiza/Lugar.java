@@ -9,11 +9,13 @@ public class Lugar {
     private String nome;
     private String descricao;
     private Bitmap foto;
+    private  String local;
 
-    public Lugar(String nome, String descricao, Bitmap foto){
+    public Lugar(String nome, String descricao, Bitmap foto, String local){
         this.nome=nome;
         this.descricao=descricao;
         this.foto=foto;
+        this.local=local;
     }
 
     public String getNome() {
@@ -24,7 +26,7 @@ public class Lugar {
         return descricao;
     }
     public String toString(){
-        return "Nome: "+this.nome+"\n Descrição: "+this.descricao;
+        return "Nome: "+this.nome+"\n Descrição: "+this.descricao+"\nLocal: "+ this.local;
     }
 
     public Bitmap getFoto() {
@@ -34,5 +36,14 @@ public class Lugar {
     public void setFoto(Bitmap foto) {
         this.foto = foto;
     }
+
+    public String getLocal() {
+        return local;
+    }
+
+    public void setLocal(String local) {
+        this.local = local;
+    }
+
 
 }

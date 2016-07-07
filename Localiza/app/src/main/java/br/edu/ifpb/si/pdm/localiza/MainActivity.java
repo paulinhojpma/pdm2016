@@ -71,8 +71,8 @@ public class MainActivity extends AppCompatActivity {
                 String descricao=data.getStringExtra("DESCRICAO");
 
                 Bitmap fota=(Bitmap) data.getParcelableExtra("FOTO");
-
-                lugares.add(new Lugar(nome,descricao, fota));
+                String local= data.getStringExtra("LOCAL");
+                lugares.add(new Lugar(nome,descricao, fota,local));
                 ArrayAdapter<Lugar> adapter = new ArrayAdapter<Lugar>(this, android.R.layout.simple_list_item_1, this.lugares);
                 this.lista.setAdapter(adapter);
                 //Toast.makeText(this, nome, Toast.LENGTH_LONG).show();
