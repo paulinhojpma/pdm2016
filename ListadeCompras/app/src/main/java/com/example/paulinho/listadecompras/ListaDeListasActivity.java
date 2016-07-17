@@ -2,12 +2,14 @@ package com.example.paulinho.listadecompras;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -29,7 +31,7 @@ public class ListaDeListasActivity extends AppCompatActivity {
     private ListView listaVelhas;
     private List<String> listas;
     private ArrayAdapter<String> adapter;
-    String op;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,14 +41,14 @@ public class ListaDeListasActivity extends AppCompatActivity {
         this.btnListaNovaOuAtual = (Button) findViewById(R.id.btn_listaAtualOuNova_listaDeListas);
         listaVelhas= (ListView) findViewById(R.id.lst_listaDeListas_listasDeListas);
         listas= new ArrayList<String>();
-        op="Lista Nova";
+
 
         setIdsOnButtons();
         setButtonListeners();
         carregarListasAntigas();
         criarLista();
 
-        Log.i("BLACKLIST", op);
+
     }
 
     private void setIdsOnButtons(){
@@ -61,12 +63,14 @@ public class ListaDeListasActivity extends AppCompatActivity {
 
         @Override
         public void onClick(View v) {
+
             Intent intent = null;
             Context c = ListaDeListasActivity.this;
             switch (v.getId()){
 
                 case LISTA_NOVA_OU_ATUAL: {
                     intent = new Intent(c, ListasActivity.class);
+
                     intent.putExtra("LISTA",  btnListaNovaOuAtual.getText().toString());
                     break;}
                 default: { break;}
@@ -82,11 +86,7 @@ public class ListaDeListasActivity extends AppCompatActivity {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 if(dataSnapshot.child("aberta").getValue(boolean.class).booleanValue()){
-                    op=dataSnapshot.getKey();
-                    if(!op.equals("Lista Nova")){
-                        btnListaNovaOuAtual.setText(op);
-
-                    }
+                        btnListaNovaOuAtual.setText(dataSnapshot.getKey());
                 }
                 //Log.i("BLACKLIST", op);
             }
@@ -158,4 +158,6 @@ public class ListaDeListasActivity extends AppCompatActivity {
             }
         });
     }
+
+
 }

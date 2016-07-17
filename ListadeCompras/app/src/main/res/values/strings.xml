@@ -5,7 +5,7 @@
     <string name="main_btnProdutos">Produtos</string>
     <string name="main_btnEstatisticas">Estatísticas</string>
     <string name="listaDeListas_tvListaAtual">Lista Atual</string>
-    <string name="listaDeListas_btnListaAtual">Lista Atual</string>
+    <string name="listaDeListas_btnListaAtual">Lista Nova</string>
     <string name="listaDeListas__btnNovaLista">Nova Lista</string>
     <string name="listaDeListas_tvListasAnteriores">Listas Anteriores</string>
     <string name="listas_tvListaAtual">Lista Atual</string>
