@@ -8,40 +8,54 @@ import android.graphics.Bitmap;
 public class Produto {
 
 
-    private int id;
+    private String id;
     private String nome;
-    private String descricao;
-    private double preco;
-    private String marca;
-    private Bitmap foto;
+    private int quantidade;
+    private String categoria;
 
-
-
-    private Categoria categoria;
-
-    public Produto(int id, String nome, double preco, String marca, Categoria categoria) {
-        this.id = id;
-        this.nome = nome;
-        this.preco = preco;
-        this.marca = marca;
-        this.categoria=categoria;
+    public boolean isComprado() {
+        return comprado;
     }
 
-    public Produto(int id, String nome, String descricao, double preco, String marca, Bitmap foto, Categoria categoria) {
-        this.id = id;
-        this.nome = nome;
-        this.descricao = descricao;
-        this.preco = preco;
-        this.marca = marca;
-        this.foto = foto;
-        this.categoria=categoria;
+    public void setComprado(boolean comprado) {
+        this.comprado = comprado;
     }
 
-    public int getId() {
+    private boolean comprado;
+
+    public Produto(){
+
+    }
+
+    public double getPreco() {
+        return preco;
+    }
+
+    public void setPreco(double preco) {
+        this.preco = preco;
+    }
+
+    public String getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
+    }
+
+    public int getQuantidade() {
+        return quantidade;
+    }
+
+    public void setQuantidade(int quantidade) {
+        this.quantidade = quantidade;
+    }
+
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -53,43 +67,16 @@ public class Produto {
         this.nome = nome;
     }
 
-    public String getDescricao() {
-        return descricao;
+    private double preco;
+
+    public String toString(){
+        String txt="";
+        txt="Produto: "+ this.nome;
+        txt+="\n Preço: "+this.preco+ " quantidade: "+this.quantidade;
+        return txt;
     }
 
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
-    }
 
-    public double getPreco() {
-        return preco;
-    }
 
-    public void setPreco(double preco) {
-        this.preco = preco;
-    }
 
-    public String getMarca() {
-        return marca;
-    }
-
-    public void setMarca(String marca) {
-        this.marca = marca;
-    }
-
-    public Bitmap getFoto() {
-        return foto;
-    }
-
-    public void setFoto(Bitmap foto) {
-        this.foto = foto;
-    }
-
-    public Categoria getCategoria() {
-        return categoria;
-    }
-
-    public void setCategoria(Categoria categoria) {
-        this.categoria = categoria;
-    }
 }

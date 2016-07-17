@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "975464401073",
+    "firebase_url": "https://lista-de-compras-46dfd.firebaseio.com",
+    "project_id": "lista-de-compras-46dfd",
+    "storage_bucket": "lista-de-compras-46dfd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:975464401073:android:ab596f59e00f2a11",
+        "android_client_info": {
+          "package_name": "com.example.paulinho.listadecompras"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "975464401073-ukfqfefa96shvjt6pruraijun6921jmt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBLF9ai5jU71XCEYi-x981sRlY7CsG6R5k"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

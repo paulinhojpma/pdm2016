@@ -4,29 +4,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.example.paulinho.listadecompras.MainActivity">
+    tools:context="com.example.paulinho.listadecompras.EstatisticasActivity">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:gravity="center">
-        <Button
-            android:id="@+id/btn_fazerCompras_main"
-            android:layout_width="300sp"
-            android:layout_height="100sp"
-            android:text="@string/main_btnCompras"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="4"
-        android:gravity="center">
+        android:layout_weight="8">
         <ImageView
-            android:id="@+id/img_Main"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </LinearLayout>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -34,20 +20,33 @@
         android:orientation="vertical"
         android:gravity="center">
         <Button
-            android:id="@+id/btn_listas_main"
+            android:id="@+id/btn_graficoGeral_estatisticas"
             android:layout_width="300sp"
-            android:layout_height="wrap_content"
-            android:text="@string/main_btnListas"/>
+            android:layout_height="100sp"
+            android:text="@string/estatisticas_graficoGeral"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:gravity="center">
         <Button
-            android:id="@+id/btn_produtos_main"
+            android:id="@+id/btn_graficoCategorias_estatisticas"
             android:layout_width="300sp"
-            android:layout_height="wrap_content"
-            android:text="@string/main_btnProdutos"
-            />
+            android:layout_height="100sp"
+            android:text="@string/estatisticas_graficoCategorias"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:gravity="center">
         <Button
-            android:id="@+id/btn_info_main"
+            android:id="@+id/btn_graficoProdutos_estatisticas"
             android:layout_width="300sp"
-            android:layout_height="wrap_content"
-            android:text="@string/main_btnEstatisticas"/>
+            android:layout_height="100sp"
+            android:text="@string/estatisticas_graficoProdutos"/>
     </LinearLayout>
 </LinearLayout>

@@ -10,20 +10,14 @@ import java.util.Map;
  * Created by Paulinho on 10/07/2016.
  */
 public class Lista {
-
+    private String nome;
     private String periodo;
-    private Double total;
-    private List<Produto> produtos=new ArrayList<Produto>();
-    private Map<String, Double> totalCategoria=new HashMap<String, Double>();
+    private Double total=0.0;
 
-    public Lista(String periodo) {
-        this.periodo = periodo;
-    }
+    private boolean aberta;
 
-    public Lista(String periodo, List<Produto> produtos) {
-        this.periodo = periodo;
-        this.produtos = produtos;
-    }
+    private List<Produto> produtos;
+
 
     public Double getTotal() {
         return total;
@@ -33,21 +27,50 @@ public class Lista {
         this.total = total;
     }
 
+    public void calcularTotal(Produto p){
+        total+=p.getPreco();
+
+    }
+
+    public void diminuirTotal(Produto p){
+        total-=p.getPreco();
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public boolean isAberta() {
+        return aberta;
+    }
+
     public List<Produto> getProdutos() {
         return produtos;
     }
+    public void adcionarProdutos(Produto p){
+        this.produtos.add(p);
+    }
 
+    public void removerProduto(Produto p){
+        this.produtos.remove(p);
+    }
     public void setProdutos(List<Produto> produtos) {
         this.produtos = produtos;
     }
 
-    public Map<String, Double> getTotalCategoria() {
-        return totalCategoria;
+    public boolean getAberta() {
+        return aberta;
     }
 
-    public void setTotalCategoria(Map<String, Double> totalCategoria) {
-        this.totalCategoria = totalCategoria;
+    public void setAberta(boolean aberta) {
+        this.aberta = aberta;
     }
+
+
 
     public String getPeriodo() {
         return periodo;
@@ -57,39 +80,18 @@ public class Lista {
         this.periodo = periodo;
     }
 
-    public void calculaTotal(){
-        double soma=0;
-        if(produtos.size()>0){
-            for (Produto p:produtos ) {
-                soma+=p.getPreco();
-            }
-
-        }
-       total=soma;
-
-
+    public String toString(){
+        String txt="";
+        txt+="Lista: "+nome;
+        txt+="\nNome: "+ periodo;
+        txt+="\nTotal: "+ total;
+        return txt;
     }
 
-    public void calcularTotalCategoria(){
-        for (Produto p: produtos) {
-            totalCategoria.put(p.getCategoria().getCategoria(), totalCategoria.get(p.getCategoria().getCategoria())+p.getPreco());
-
-        }
 
 
+    public Lista(){
+        this.produtos=new ArrayList<Produto>();
     }
 
-    private void carregaCategorias(){
-
-        totalCategoria.put(Categoria.GRAOS.getCategoria(), 0.0);
-        totalCategoria.put(Categoria.FRIOS.getCategoria(), 0.0);
-        totalCategoria.put(Categoria.BEBIDAS.getCategoria(), 0.0);
-        totalCategoria.put(Categoria.FRUTAS.getCategoria(), 0.0);
-        totalCategoria.put(Categoria.CARNES.getCategoria(), 0.0);
-        totalCategoria.put(Categoria.CONDIMENTOS.getCategoria(), 0.0);
-        totalCategoria.put(Categoria.HIGIENE.getCategoria(), 0.0);
-        totalCategoria.put(Categoria.LIMPEZA.getCategoria(), 0.0);
-        totalCategoria.put(Categoria.OUTROS.getCategoria(), 0.0);
-
-    }
 }

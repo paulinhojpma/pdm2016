@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.paulinho.listadecompras.ListasActivity">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingTop="12sp"
+        android:paddingBottom="12sp"
+        android:paddingLeft="12sp">
+        <TextView
+            android:id="@+id/tv_itens_listas"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Itens:"
+            android:textSize="15sp"
+            android:layout_marginBottom="5sp"/>
+        <TextView
+            android:id="@+id/tv_totalEstimado_listas"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Total Estimado:"
+            android:textSize="15sp"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/listas_tvProdutos"
+            android:textSize="20sp"
+            android:textAlignment="center"
+            android:id="@+id/nome_lista"/>
+        <ExpandableListView
+            android:id="@+id/lst_listaDeProdutos_listas"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </ExpandableListView>
+    </LinearLayout>
+
+</LinearLayout>

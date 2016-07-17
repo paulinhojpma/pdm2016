@@ -4,50 +4,42 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.example.paulinho.listadecompras.MainActivity">
+    tools:context=".FazerComprasActivity">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:layout_weight="0.1"
         android:gravity="center">
         <Button
-            android:id="@+id/btn_fazerCompras_main"
+            android:id="@+id/btn_verLista_FazerCompras"
             android:layout_width="300sp"
             android:layout_height="100sp"
-            android:text="@string/main_btnCompras"/>
+            android:text="@string/fazerCompras_tvVerLista"/>
     </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="4"
-        android:gravity="center">
-        <ImageView
-            android:id="@+id/img_Main"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:paddingBottom="15sp"
         android:orientation="vertical"
         android:gravity="center">
+        <TextView
+            android:id="@+id/tv_nomeSupermercado_fazerCompras"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:paddingLeft="20sp"
+            android:gravity="center_vertical"
+            android:text="@string/fazerCompras_tvNomeSupermercado"/>
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="8"/>
         <Button
-            android:id="@+id/btn_listas_main"
+            android:id="@+id/btn_calcRota_fazerCompras"
             android:layout_width="300sp"
             android:layout_height="wrap_content"
-            android:text="@string/main_btnListas"/>
-        <Button
-            android:id="@+id/btn_produtos_main"
-            android:layout_width="300sp"
-            android:layout_height="wrap_content"
-            android:text="@string/main_btnProdutos"
-            />
-        <Button
-            android:id="@+id/btn_info_main"
-            android:layout_width="300sp"
-            android:layout_height="wrap_content"
-            android:text="@string/main_btnEstatisticas"/>
+            android:layout_weight=".3"
+            android:text="@string/fazerCompras_btnCalcularRota"/>
     </LinearLayout>
 </LinearLayout>
