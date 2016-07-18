@@ -48,7 +48,9 @@ public class ListasActivity extends AppCompatActivity {
     Intent intent;
     String extra;
     String nomeNovaLista;
-
+    Lista listaNova;
+    FirebaseDatabase base;
+    DatabaseReference ref;
 
 
 
@@ -199,14 +201,14 @@ public class ListasActivity extends AppCompatActivity {
         builder.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                Lista listaNova=new Lista();
+                listaNova=new Lista();
                 listaNova.setNome(edi.getText().toString());
                 listaNova.setAberta(true);
                 listaNova.setPeriodo("Mar/2016");
                 FirebaseDatabase base=FirebaseDatabase.getInstance();
                 DatabaseReference ref=base.getReference("Supermercados/listas");
                 ref.child(listaNova.getNome()+"/periodo").setValue(listaNova.getPeriodo());
-                ref.child(listaNova.getNome()+"/total").setValue(0.0);
+                ref.child(listaNova.getNome()+"/total").setValue(1.5);
                 ref.child(listaNova.getNome()+"/aberta").setValue(true);
             }
         });
@@ -224,7 +226,89 @@ public class ListasActivity extends AppCompatActivity {
     }
 
 
+    public void carregarItensListaNova(){
+        base=FirebaseDatabase.getInstance();
+        ref=base.getReference("Supermercados");
 
+        ref.child("produtos").addChildEventListener(new ChildEventListener() {
+            @Override //aqui pego todos os produto
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                //Log.i("BLACKLIST", "aki");
+                final DataSnapshot d=dataSnapshot;
+
+                chave=dataSnapshot.getKey();
+                Log.i("BLACKLIST", chave);
+
+
+                Log.i("BLACKLIST", "chave do produto: "+ref.child("listas/fev-16/produtos/"+ chave).getKey());
+
+                if(ref.child("listas/"+listaNova.getNome()+"/produtos/"+ chave).getKey().equals(chave)){
+                    ref.child("listas/"+listaNova.getNome()+"/produtos/"+ chave).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            Produto p=new Produto();
+                            p.setNome(d.child("nome").getValue().toString());;
+                            p.setCategoria(d.child("categoria").getValue().toString());
+                            p.setId(d.getKey()) ;
+                            if(dataSnapshot.hasChildren()){
+                                p.setPreco(dataSnapshot.child("preco").getValue(Double.class).doubleValue());
+                                p.setQuantidade(dataSnapshot.child("quantidade").getValue(Integer.class).intValue());
+                                p.setComprado(dataSnapshot.child("comprado").getValue(Boolean.class).booleanValue());
+                                totalCompra+=p.getPreco()*p.getQuantidade();
+                                totalItem+=p.getQuantidade();
+
+                                //Log.i("BLACKLIST", "Produto "+ dataSnapshot.getKey()+" entrou na lista de compras");
+
+                                listaCompras.adcionarProdutos(p);
+                                categorias= carregarCategorias(p.getCategoria(), listaCompras.getProdutos());
+                                Log.i("BLACKLIST", "Produto inserido: "+p.getNome());
+                                Log.i("BLACKLIST", "Produtos na lista: "+listaCompras.getProdutos().size());
+                                Log.i("BLACKLIST", "categorias: "+categ.size());
+                                Log.i("BLACKLIST", "categorias map: "+categorias.size());
+
+                                ListasActivity.this.atualizaAdapter(categ, categorias);
+                            }
+
+
+                            qtTotal.setText("Quantidade de mercadorias: "+totalItem);
+                            total.setText("Valor total atual"+ totalCompra);
+
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+                }
+
+
+
+
+
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
 
 
 

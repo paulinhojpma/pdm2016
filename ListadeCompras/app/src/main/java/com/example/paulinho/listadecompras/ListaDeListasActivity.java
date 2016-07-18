@@ -81,14 +81,16 @@ public class ListaDeListasActivity extends AppCompatActivity {
 
     public void criarLista(){
 
-        ref.child("listas").addChildEventListener(new ChildEventListener() {
+        ChildEventListener listener=new ChildEventListener() {
 
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                if(dataSnapshot.child("aberta").getValue(boolean.class).booleanValue()){
+                if(dataSnapshot.child("aberta").getValue()!=null) {
+                    if (dataSnapshot.child("aberta").getValue(boolean.class).booleanValue()) {
                         btnListaNovaOuAtual.setText(dataSnapshot.getKey());
+                    }
+                    //Log.i("BLACKLIST", op);
                 }
-                //Log.i("BLACKLIST", op);
             }
 
             @Override
@@ -110,31 +112,43 @@ public class ListaDeListasActivity extends AppCompatActivity {
             public void onCancelled(DatabaseError databaseError) {
 
             }
-        });
+        };
+
+        ref.child("listas").addChildEventListener(listener);
+        //ref.child("lista").addChildEventListener(listener);
 
 
     }
 
     public void carregarListasAntigas(){
-        ref.child("listas").addChildEventListener(new ChildEventListener() {
+
+
+        ChildEventListener listener=new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                if(!dataSnapshot.child("aberta").getValue(boolean.class)){
-                    Lista l=new Lista();
+               // if(dataSnapshot.getChildren()!=null) {
+                Log.i("BLACKLIST",dataSnapshot.getKey());
+                Log.i("BLACKLIST",dataSnapshot.child("periodo").getValue(String.class));
+                //Log.i("BLACKLIST",dataSnapshot.child("total").getValue(Double.class).doubleValue()+"");
+                //Log.i("BLACKLIST",dataSnapshot.child("aberta").getValue(boolean.class).booleanValue()+"");
+                    if(dataSnapshot.child("aberta").getValue()!=null){
+                    if (!dataSnapshot.child("aberta").getValue(boolean.class)) {
+                        Lista l = new Lista();
 
-                    l.setNome(dataSnapshot.getKey());
-                    l.setPeriodo(dataSnapshot.child("periodo").getValue(String.class));
-                    l.setTotal(dataSnapshot.child("total").getValue(Double.class).doubleValue());
+                        l.setNome(dataSnapshot.getKey());
+                        l.setPeriodo(dataSnapshot.child("periodo").getValue(String.class));
+                        l.setTotal(dataSnapshot.child("total").getValue(Double.class).doubleValue());
 
 
-                    if(!l.getNome().equals("listaBasica")){
-                        listas.add(l.toString());
-                        adapter= new ArrayAdapter<String>(ListaDeListasActivity.this,android.R.layout.simple_list_item_1, listas);
-                        listaVelhas.setAdapter(adapter);
+                        if (!l.getNome().equals("listaBasica")) {
+                            listas.add(l.toString());
+                            adapter = new ArrayAdapter<String>(ListaDeListasActivity.this, android.R.layout.simple_list_item_1, listas);
+                            listaVelhas.setAdapter(adapter);
+                        }
+
+
                     }
-
-
-                }
+                    }
             }
 
             @Override
@@ -156,7 +170,9 @@ public class ListaDeListasActivity extends AppCompatActivity {
             public void onCancelled(DatabaseError databaseError) {
 
             }
-        });
+        };
+        ref.child("listas").addChildEventListener(listener);
+        //ref.child("listas").removeEventListener(listener);
     }
 
 
