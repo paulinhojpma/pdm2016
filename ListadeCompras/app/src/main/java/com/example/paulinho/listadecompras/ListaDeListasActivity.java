@@ -127,8 +127,8 @@ public class ListaDeListasActivity extends AppCompatActivity {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                // if(dataSnapshot.getChildren()!=null) {
-                Log.i("BLACKLIST",dataSnapshot.getKey());
-                Log.i("BLACKLIST",dataSnapshot.child("periodo").getValue(String.class));
+                //Log.i("BLACKLIST",dataSnapshot.getKey());
+                //Log.i("BLACKLIST",dataSnapshot.child("periodo").getValue(String.class));
                 //Log.i("BLACKLIST",dataSnapshot.child("total").getValue(Double.class).doubleValue()+"");
                 //Log.i("BLACKLIST",dataSnapshot.child("aberta").getValue(boolean.class).booleanValue()+"");
                     if(dataSnapshot.child("aberta").getValue()!=null){

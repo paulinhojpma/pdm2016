@@ -28,12 +28,12 @@ public class Lista {
     }
 
     public void calcularTotal(Produto p){
-        total+=p.getPreco();
+        total+=p.getPreco()*p.getQuantidade();
 
     }
 
-    public void diminuirTotal(Produto p){
-        total-=p.getPreco();
+    public void diminuirTotal(Produto p,int qt){
+        total-=p.getPreco()*qt;
     }
 
     public String getNome() {

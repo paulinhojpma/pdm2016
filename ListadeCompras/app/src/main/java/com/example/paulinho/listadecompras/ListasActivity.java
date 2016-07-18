@@ -61,6 +61,7 @@ public class ListasActivity extends AppCompatActivity {
 
         Bundle bundle=getIntent().getExtras();
         extra=bundle.getString("LISTA");
+        Log.i("BLACKLIST","Extra: "+extra);
         nomeNovaLista=bundle.getString("NOMENOVALISTA");
 
         total= (TextView) findViewById(R.id.tv_totalEstimado_listas);
@@ -68,7 +69,7 @@ public class ListasActivity extends AppCompatActivity {
         nomeLista= (TextView) findViewById(R.id.nome_lista);
         listaPrincipal=(ExpandableListView) findViewById(R.id.lst_listaDeProdutos_listas);
         categ= new ArrayList<String>();
-
+        listaCompras=new Lista();
         categorias=new HashMap<String, List<Produto>>();
 
         carregaCategoria();
@@ -179,14 +180,18 @@ public class ListasActivity extends AppCompatActivity {
     public void opcoesLista(String s){
 
 
-        switch (s){
-            case"Lista Nova":
+
+            if(s.equals("Lista Nova"))
                 criarNovaLista();
-                break;
+            else{
+                carregaListaAtual();
+
+            }
 
 
 
-        }
+
+
 
 
     }
@@ -210,6 +215,7 @@ public class ListasActivity extends AppCompatActivity {
                 ref.child(listaNova.getNome()+"/periodo").setValue(listaNova.getPeriodo());
                 ref.child(listaNova.getNome()+"/total").setValue(1.5);
                 ref.child(listaNova.getNome()+"/aberta").setValue(true);
+                carregarItensListaNova();
             }
         });
         builder.create().show();
@@ -240,10 +246,10 @@ public class ListasActivity extends AppCompatActivity {
                 Log.i("BLACKLIST", chave);
 
 
-                Log.i("BLACKLIST", "chave do produto: "+ref.child("listas/fev-16/produtos/"+ chave).getKey());
+                //Log.i("BLACKLIST", "chave do produto: "+ref.child("listas/fev-16/produtos/"+ chave).getKey());
 
-                if(ref.child("listas/"+listaNova.getNome()+"/produtos/"+ chave).getKey().equals(chave)){
-                    ref.child("listas/"+listaNova.getNome()+"/produtos/"+ chave).addListenerForSingleValueEvent(new ValueEventListener() {
+                if(ref.child("listas/listaBasica/produtos/"+ chave).getKey().equals(chave)){
+                    ref.child("listas/listaBasica/produtos/"+ chave).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             Produto p=new Produto();
@@ -252,10 +258,12 @@ public class ListasActivity extends AppCompatActivity {
                             p.setId(d.getKey()) ;
                             if(dataSnapshot.hasChildren()){
                                 p.setPreco(dataSnapshot.child("preco").getValue(Double.class).doubleValue());
+                                ref.child("listas/"+listaNova.getNome()+"/produtos/"+p.getId()+"/preco").setValue(p.getPreco());
                                 p.setQuantidade(dataSnapshot.child("quantidade").getValue(Integer.class).intValue());
+                                ref.child("listas/"+listaNova.getNome()+"/produtos/"+p.getId()+"/quantidade").setValue(p.getQuantidade());
                                 p.setComprado(dataSnapshot.child("comprado").getValue(Boolean.class).booleanValue());
-                                totalCompra+=p.getPreco()*p.getQuantidade();
-                                totalItem+=p.getQuantidade();
+                                ref.child("listas/"+listaNova.getNome()+"/produtos/"+p.getId()+"/comprado").setValue(p.isComprado());
+
 
                                 //Log.i("BLACKLIST", "Produto "+ dataSnapshot.getKey()+" entrou na lista de compras");
 
@@ -310,7 +318,97 @@ public class ListasActivity extends AppCompatActivity {
         });
     }
 
+    public void carregaListaAtual(){
+        base=FirebaseDatabase.getInstance();
+        ref=base.getReference("Supermercados");
+        ref.child("produtos").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                //Log.i("BLACKLIST", "aki");
+                final DataSnapshot d=dataSnapshot;
 
+                chave=dataSnapshot.getKey();
+                Log.i("BLACKLIST", chave);
+
+
+                //Log.i("BLACKLIST", "chave do produto: "+ref.child("listas/fev-16/produtos/"+ chave).getKey());
+                if(ref.child("listas/"+extra+"/produtos/"+ chave).getKey().equals(chave)){
+                    ref.child("listas/"+extra+"/produtos/"+ chave).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            Produto p=new Produto();
+                            p.setNome(d.child("nome").getValue().toString());;
+                            p.setCategoria(d.child("categoria").getValue().toString());
+                            p.setId(d.getKey()) ;
+                            if(dataSnapshot.hasChildren()){
+                                p.setPreco(dataSnapshot.child("preco").getValue(Double.class).doubleValue());
+                                p.setQuantidade(dataSnapshot.child("quantidade").getValue(Integer.class).intValue());
+                                p.setComprado(dataSnapshot.child("comprado").getValue(Boolean.class).booleanValue());
+
+
+                                //Log.i("BLACKLIST", "Produto "+ dataSnapshot.getKey()+" entrou na lista de compras");
+
+                                listaCompras.adcionarProdutos(p);
+                                categorias= carregarCategorias(p.getCategoria(), listaCompras.getProdutos());
+                                Log.i("BLACKLIST", "Produto inserido: "+p.getNome());
+                                Log.i("BLACKLIST", "Produtos na lista: "+listaCompras.getProdutos().size());
+                                Log.i("BLACKLIST", "categorias: "+categ.size());
+                                Log.i("BLACKLIST", "categorias map: "+categorias.size());
+
+                                ListasActivity.this.atualizaAdapter(categ, categorias);
+                            }
+
+
+                            qtTotal.setText("Quantidade de mercadorias: "+totalItem);
+                            total.setText("Valor total atual"+ totalCompra);
+
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+                }
+
+
+
+
+
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private class ClickItemLista implements ExpandableListView.OnChildClickListener{
+
+        @Override
+        public boolean onChildClick(ExpandableListView expandableListView, View view, int i, int i1, long l) {
+
+
+
+            return false;
+        }
+    }
 
     /*ref.child("produtos").addChildEventListener(new ChildEventListener() {
         @Override
