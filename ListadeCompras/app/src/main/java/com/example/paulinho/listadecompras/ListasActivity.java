@@ -1,20 +1,27 @@
 package com.example.paulinho.listadecompras;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
+import android.widget.NumberPicker;
 import android.widget.SimpleExpandableListAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.google.firebase.database.ChildEventListener;
@@ -51,6 +58,15 @@ public class ListasActivity extends AppCompatActivity {
     Lista listaNova;
     FirebaseDatabase base;
     DatabaseReference ref;
+    Button botao;
+    TextView listaVolta;
+
+
+    EditText ed;
+    NumberPicker num;
+    CheckBox check;
+    TextView txt;
+    Produto p1;
 
 
 
@@ -68,12 +84,24 @@ public class ListasActivity extends AppCompatActivity {
         qtTotal= (TextView) findViewById(R.id.tv_itens_listas);
         nomeLista= (TextView) findViewById(R.id.nome_lista);
         listaPrincipal=(ExpandableListView) findViewById(R.id.lst_listaDeProdutos_listas);
+        botao=(Button) findViewById(R.id.btencerra);
+        botao.setOnClickListener(new ClickBotaoFechaCompra());
         categ= new ArrayList<String>();
         listaCompras=new Lista();
         categorias=new HashMap<String, List<Produto>>();
+        listaVolta=(TextView) findViewById(R.id.nome_lista);
+
+        listaVolta.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent= new Intent(ListasActivity.this, ListaDeListasActivity.class);
+                ListasActivity.this.startActivity(intent);
+            }
+        });
 
         carregaCategoria();
         opcoesLista(extra);
+        listaPrincipal.setOnChildClickListener(new ClickItem());
 
 
         Log.i("BLACKLIST", "antes firebase");
@@ -86,12 +114,13 @@ public class ListasActivity extends AppCompatActivity {
 
 
     }
-    public void atualizaAdapter(List<String> cat, Map<String, List<Produto>> list ){
+    public void atualizaAdapter(List<String> cat, Map<String, List<Produto>> list, String nomeLista ){
         //carregarCategorias(listaCompras.getProdutos());
 
 
-        adapter= new listaCategorias(cat, list, ListasActivity.this);
+        adapter= new listaCategorias(cat, list, ListasActivity.this, base, nomeLista);
         listaPrincipal.setAdapter(adapter);
+
         Log.i("BLACKLIST", "carregando adapter");
 
     }
@@ -208,12 +237,13 @@ public class ListasActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialogInterface, int i) {
                 listaNova=new Lista();
                 listaNova.setNome(edi.getText().toString());
+                extra=edi.getText().toString();
                 listaNova.setAberta(true);
                 listaNova.setPeriodo("Mar/2016");
                 FirebaseDatabase base=FirebaseDatabase.getInstance();
                 DatabaseReference ref=base.getReference("Supermercados/listas");
                 ref.child(listaNova.getNome()+"/periodo").setValue(listaNova.getPeriodo());
-                ref.child(listaNova.getNome()+"/total").setValue(1.5);
+                ref.child(listaNova.getNome()+"/total").setValue(0.0);
                 ref.child(listaNova.getNome()+"/aberta").setValue(true);
                 carregarItensListaNova();
             }
@@ -269,12 +299,14 @@ public class ListasActivity extends AppCompatActivity {
 
                                 listaCompras.adcionarProdutos(p);
                                 categorias= carregarCategorias(p.getCategoria(), listaCompras.getProdutos());
+                                Log.i("BLACKLIST", "<------------------------------->");
                                 Log.i("BLACKLIST", "Produto inserido: "+p.getNome());
                                 Log.i("BLACKLIST", "Produtos na lista: "+listaCompras.getProdutos().size());
                                 Log.i("BLACKLIST", "categorias: "+categ.size());
                                 Log.i("BLACKLIST", "categorias map: "+categorias.size());
+                                Log.i("BLACKLIST", "                                    ");
 
-                                ListasActivity.this.atualizaAdapter(categ, categorias);
+                                ListasActivity.this.atualizaAdapter(categ, categorias, listaNova.getNome());
                             }
 
 
@@ -321,6 +353,7 @@ public class ListasActivity extends AppCompatActivity {
     public void carregaListaAtual(){
         base=FirebaseDatabase.getInstance();
         ref=base.getReference("Supermercados");
+        //ref.child("listas/"+extra+"/total").setValue(0.0);
         ref.child("produtos").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
@@ -339,12 +372,18 @@ public class ListasActivity extends AppCompatActivity {
                             Produto p=new Produto();
                             p.setNome(d.child("nome").getValue().toString());;
                             p.setCategoria(d.child("categoria").getValue().toString());
-                            p.setId(d.getKey()) ;
+                            p.setId(d.getKey());
+
                             if(dataSnapshot.hasChildren()){
                                 p.setPreco(dataSnapshot.child("preco").getValue(Double.class).doubleValue());
                                 p.setQuantidade(dataSnapshot.child("quantidade").getValue(Integer.class).intValue());
                                 p.setComprado(dataSnapshot.child("comprado").getValue(Boolean.class).booleanValue());
 
+                                if(p.isComprado()){
+                                    totalItem+=p.getQuantidade();
+                                    totalCompra+=p.getPreco()*p.getQuantidade();
+
+                                }
 
                                 //Log.i("BLACKLIST", "Produto "+ dataSnapshot.getKey()+" entrou na lista de compras");
 
@@ -355,12 +394,12 @@ public class ListasActivity extends AppCompatActivity {
                                 Log.i("BLACKLIST", "categorias: "+categ.size());
                                 Log.i("BLACKLIST", "categorias map: "+categorias.size());
 
-                                ListasActivity.this.atualizaAdapter(categ, categorias);
+                                ListasActivity.this.atualizaAdapter(categ, categorias, extra);
                             }
 
-
+                            //ref.child("listas/"+extra+"/total").setValue(totalCompra);
                             qtTotal.setText("Quantidade de mercadorias: "+totalItem);
-                            total.setText("Valor total atual"+ totalCompra);
+                            total.setText("Valor total atual: "+ totalCompra);
 
                         }
 
@@ -399,16 +438,148 @@ public class ListasActivity extends AppCompatActivity {
         });
     }
 
-    private class ClickItemLista implements ExpandableListView.OnChildClickListener{
+    /*private class ClickItemLista implements ExpandableListView.OnChildClickListener{
 
         @Override
         public boolean onChildClick(ExpandableListView expandableListView, View view, int i, int i1, long l) {
+
+            AlertDialog.Builder builder=new AlertDialog.Builder(ListasActivity.this);
+            LayoutInflater inflater= (LayoutInflater) ListasActivity.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View v= inflater.inflate(R.layout.layout_alert_set_item, null);
+            EditText edi= (EditText) v.findViewById(R.id.pr);
+            NumberPicker num= (NumberPicker) v.findViewById(R.id.npck);
+            num.setMaxValue(10);
+            num.setMinValue(1);
+            num.setWrapSelectorWheel(false);
+            builder.setView(v);
+            builder.setTitle("Alterar Preço e quantidade");
+            builder.setPositiveButton("sim", null);
+            builder.setNegativeButton("cancelar",null);
+
+            builder.create().show();
+
+
+
+
 
 
 
             return false;
         }
+    }*/
+   private class ClickItem implements ExpandableListView.OnChildClickListener{
+
+        @Override
+        public boolean onChildClick(ExpandableListView expandableListView, View view, int i, int i1, long l) {
+
+            final int child=i1;
+            final int parent=i;
+            txt=(TextView)view.findViewById(R.id.text_produto);
+            ref=base.getReference("Supermercados/listas");
+            AlertDialog.Builder builder=new AlertDialog.Builder(ListasActivity.this);
+            LayoutInflater inflater= (LayoutInflater) ListasActivity.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View v= inflater.inflate(R.layout.layout_alert_set_item, null);
+            ed= (EditText) v.findViewById(R.id.pr);
+            num= (NumberPicker) v.findViewById(R.id.npck);
+            check= (CheckBox) v.findViewById(R.id.check_produto);
+            num.setMaxValue(10);
+            num.setMinValue(1);
+            num.setWrapSelectorWheel(false);
+            p1=categorias.get(categ.get(parent)).get(child);
+            num.setValue(p1.getQuantidade());
+            ed.setText(p1.getPreco()+"");
+            check.setChecked(p1.isComprado());
+
+            check.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                        if(b==true){
+                            check.setChecked(true);
+                        }else{
+                            check.setChecked(false);
+                        }
+
+                }
+            });
+            builder.setView(v);
+            builder.setTitle("Alterar "+p1.getId());
+            builder.setPositiveButton("sim", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+
+
+                    Log.i("BLACKLIST", "CHECAGEM -"+p1.isComprado());
+                    Log.i("BLACKLIST", "CHECAGEM -"+p1.isComprado());
+                    Log.i("BLACKLIST", "CHECAGEM -"+p1.isComprado());
+                    Log.i("BLACKLIST", "CHECAGEM b-"+check.isChecked());
+                    Log.i("BLACKLIST", "CHECAGEM b-"+check.isChecked());
+                    Log.i("BLACKLIST", "CHECAGEM b-"+check.isChecked());
+
+                    if(check.isChecked()){
+                        totalItem+=num.getValue();//-p1.getQuantidade();
+                        totalCompra+=Double.parseDouble(ed.getText().toString())*num.getValue();//  - p1.getQuantidade()* p1.getPreco();
+                    }else{
+                        if(p1.isComprado()){
+                            totalItem -= p1.getQuantidade();
+                            totalCompra -= p1.getQuantidade() * p1.getPreco();
+                        }
+
+
+
+
+                    }
+
+                    p1.setQuantidade(num.getValue());
+                    p1.setPreco(Double.parseDouble(ed.getText().toString()));
+                    p1.setComprado(check.isChecked());
+                    ref.child(extra+"/produtos/"+p1.getId()+"/preco").setValue(p1.getPreco());
+                    ref.child(extra+"/produtos/"+p1.getId()+"/quantidade").setValue(p1.getQuantidade());
+                    ref.child(extra+"/produtos/"+p1.getId()+"/comprado").setValue(p1.isComprado());
+                    ref.child(extra+"/total").setValue(totalCompra);
+                    qtTotal.setText("Quantidade de mercadorias: "+totalItem);
+                    total.setText("Valor total atual: "+ totalCompra);
+                    //txt.setText(p.toString());
+                    atualizaAdapter(categ, categorias, extra);
+
+
+                }
+            });
+            builder.setNegativeButton("cancelar",null);
+
+            builder.create().show();
+
+
+            return false;
+        }
     }
+
+    private class ClickBotaoFechaCompra implements View.OnClickListener{
+
+        @Override
+        public void onClick(View view) {
+            base=FirebaseDatabase.getInstance();
+            ref=base.getReference("Supermercados/listas/"+extra);
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(ListasActivity.this);
+            builder.setTitle("Finalizar a compra");
+            builder.setMessage("Tem certeza que quer finalizar a lista "+extra);
+            builder.setIcon(R.mipmap.ic_launcher);
+            builder.setPositiveButton("sim", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    ref.child("aberta").setValue(false);
+                    Toast.makeText(ListasActivity.this,"Total da compra "+totalCompra, Toast.LENGTH_LONG).show();
+                    Intent intent= new Intent(ListasActivity.this,ListaDeListasActivity.class);
+                    ListasActivity.this.startActivity(intent);
+                }
+            });
+            builder.setNegativeButton("não", null);
+            builder.create().show();
+
+
+        }
+    }
+
 
     /*ref.child("produtos").addChildEventListener(new ChildEventListener() {
         @Override

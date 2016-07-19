@@ -13,7 +13,6 @@ public class Lista {
     private String nome;
     private String periodo;
     private Double total=0.0;
-
     private boolean aberta;
 
     private List<Produto> produtos;
@@ -27,8 +26,8 @@ public class Lista {
         this.total = total;
     }
 
-    public void calcularTotal(Produto p){
-        total+=p.getPreco()*p.getQuantidade();
+    public double calcularTotal(Produto p){
+        return total+=p.getPreco()*p.getQuantidade();
 
     }
 

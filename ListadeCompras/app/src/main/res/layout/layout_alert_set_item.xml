@@ -5,18 +5,36 @@
     android:clickable="false"
     android:orientation="horizontal">
 
-    <EditText
-        android:layout_width="0dp"
+    <NumberPicker
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_weight="5"
-        android:hint="Nº"
-        android:id="@+id/qt"/>
+        android:id="@+id/npck"
+        android:layout_gravity="center"
+        android:layout_weight="2"
+        ></NumberPicker>
+
+
 
     <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="9"
+
+        android:id="@+id/pr"
+        android:inputType="numberDecimal"
+        android:layout_gravity="center"/>
+
+    <CheckBox
+
         android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="5"
-        android:hint="preço"
-        android:id="@+id/pr"/>
+        android:layout_height="50dp"
+        android:layout_weight="2"
+        android:visibility="visible"
+        android:id="@+id/check_produto"
+        android:layout_gravity="center"
+         />
+
+
+
 
 </LinearLayout>

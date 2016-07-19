@@ -1,16 +1,27 @@
 package com.example.paulinho.listadecompras;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.database.DataSetObserver;
+import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.EditText;
+import android.widget.NumberPicker;
 import android.widget.TextView;
 
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,13 +34,22 @@ public class listaCategorias extends BaseExpandableListAdapter{
     private Context context;
     private List<String> categorias;
     private Map<String, List<Produto>> produtos;
+    private FirebaseDatabase base;
+    private String nomeLista;
+    private DatabaseReference ref;
+    CheckBox check;
+   TextView texto;
+    double tot;
+   // Produto p;
 
-
-    public listaCategorias(List<String> categorias, Map<String, List<Produto>> produtos,  Context context) {
+    public listaCategorias(List<String> categorias, Map<String, List<Produto>> produtos, Context context, FirebaseDatabase base, String nomeLista) {
         this.context = context;
         this.categorias=categorias;
-
+        this.base=base;
         this.produtos=produtos;
+        this.nomeLista=nomeLista;
+        base=FirebaseDatabase.getInstance();
+        this.ref=base.getReference("Supermercados/listas");
     }
 
     @Override
@@ -64,7 +84,7 @@ public class listaCategorias extends BaseExpandableListAdapter{
 
     @Override
     public boolean hasStableIds() {
-        return false;
+        return true;
     }
 
     @Override
@@ -94,10 +114,10 @@ public class listaCategorias extends BaseExpandableListAdapter{
 
     @Override
     public View getChildView(int i, int i1, boolean b, View view, ViewGroup viewGroup) {
-        CheckBox check;
-        TextView texto;
-       Produto p=(Produto) getChild(i, i1);
+        Produto p=(Produto) getChild(i, i1);
+        Log.i("BLACKLIST", "Primeiro: "+p.getId());
         View covert;
+        //check.setChecked(false);
         if (view == null) {
             LayoutInflater li = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             covert = li.inflate(R.layout.lista_produto, null);
@@ -105,10 +125,20 @@ public class listaCategorias extends BaseExpandableListAdapter{
             covert=view;
         }
         texto= (TextView) covert.findViewById(R.id.text_produto);
-        check= (CheckBox) covert.findViewById(R.id.check_produto);
-        check.setChecked(p.isComprado());
+
+
+
+
+
+
+
 
         texto.setText(p.toString());
+       if (p.isComprado()){
+            //texto.setBackgroundColor();
+        }
+        Log.i("BLACKLIST", "Quarto: "+p.getId());
+
         return covert;
     }
 
@@ -116,4 +146,6 @@ public class listaCategorias extends BaseExpandableListAdapter{
     public boolean isChildSelectable(int i, int i1) {
         return true;
     }
+
+
 }

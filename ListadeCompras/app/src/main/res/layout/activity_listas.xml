@@ -37,12 +37,20 @@
             android:text="@string/listas_tvProdutos"
             android:textSize="20sp"
             android:textAlignment="center"
-            android:id="@+id/nome_lista"/>
+            android:id="@+id/nome_lista"
+            android:clickable="true"/>
         <ExpandableListView
             android:id="@+id/lst_listaDeProdutos_listas"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
         </ExpandableListView>
+
     </LinearLayout>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="encerrar compras"
+        android:id="@+id/btencerra"
+        />
 
 </LinearLayout>

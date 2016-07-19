@@ -6,11 +6,14 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.NumberPicker;
 import android.widget.TextView;
 
 import com.google.firebase.database.ChildEventListener;
@@ -144,6 +147,20 @@ public class ListaDeListasActivity extends AppCompatActivity {
                             listas.add(l.toString());
                             adapter = new ArrayAdapter<String>(ListaDeListasActivity.this, android.R.layout.simple_list_item_1, listas);
                             listaVelhas.setAdapter(adapter);
+                            /*listaVelhas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                                    AlertDialog.Builder builder=new AlertDialog.Builder(ListaDeListasActivity.this);
+
+                                    builder.setTitle("Alterar Preço e quantidade");
+                                    builder.setPositiveButton("sim", null);
+                                    builder.setNegativeButton("cancelar",null);
+
+                                    builder.create().show();
+
+                                }
+                            });*/
+
                         }
 
 
@@ -174,6 +191,7 @@ public class ListaDeListasActivity extends AppCompatActivity {
         ref.child("listas").addChildEventListener(listener);
         //ref.child("listas").removeEventListener(listener);
     }
+
 
 
 }
