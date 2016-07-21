@@ -4,14 +4,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:paddingTop="12dp"
+    android:background="@color/whiteBack"
     tools:context="com.example.paulinho.listadecompras.EstatisticasActivity">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="8">
+        android:layout_weight="1">
         <ImageView
+            android:src="@drawable/graph"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="200dp" />
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -21,6 +24,9 @@
         android:gravity="center">
         <Button
             android:id="@+id/btn_graficoGeral_estatisticas"
+            android:textAllCaps="false"
+            android:textSize="16dp"
+            android:background="@color/Grey"
             android:layout_width="300sp"
             android:layout_height="100sp"
             android:text="@string/estatisticas_graficoGeral"/>
@@ -33,6 +39,9 @@
         android:gravity="center">
         <Button
             android:id="@+id/btn_graficoCategorias_estatisticas"
+            android:textAllCaps="false"
+            android:textSize="16dp"
+            android:background="@color/Blue"
             android:layout_width="300sp"
             android:layout_height="100sp"
             android:text="@string/estatisticas_graficoCategorias"/>
@@ -45,6 +54,9 @@
         android:gravity="center">
         <Button
             android:id="@+id/btn_graficoProdutos_estatisticas"
+            android:textAllCaps="false"
+            android:textSize="16dp"
+            android:background="@color/Orange"
             android:layout_width="300sp"
             android:layout_height="100sp"
             android:text="@string/estatisticas_graficoProdutos"/>

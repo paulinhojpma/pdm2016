@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/whiteBack"
     tools:context="com.example.paulinho.listadecompras.ListasActivity">
     <LinearLayout
         android:layout_width="match_parent"
@@ -37,20 +38,20 @@
             android:text="@string/listas_tvProdutos"
             android:textSize="20sp"
             android:textAlignment="center"
-            android:id="@+id/nome_lista"
-            android:clickable="true"/>
+            android:id="@+id/nome_lista"/>
         <ExpandableListView
             android:id="@+id/lst_listaDeProdutos_listas"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
         </ExpandableListView>
-
     </LinearLayout>
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="encerrar compras"
+        android:background="@color/Orange"
+        android:textSize="18dp"
+        android:textAllCaps="false"
+        android:text="Encerrar Compras"
         android:id="@+id/btencerra"
         />
-
 </LinearLayout>

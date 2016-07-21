@@ -1,19 +1,24 @@
 <resources>
     <string name="app_name">Lista de Compras</string>
+
     <string name="main_btnCompras">Fazer Compras</string>
     <string name="main_btnListas">Listas</string>
     <string name="main_btnProdutos">Produtos</string>
     <string name="main_btnEstatisticas">Estatísticas</string>
+
     <string name="listaDeListas_tvListaAtual">Lista Atual</string>
     <string name="listaDeListas_btnListaAtual">Lista Nova</string>
     <string name="listaDeListas__btnNovaLista">Nova Lista</string>
     <string name="listaDeListas_tvListasAnteriores">Listas Anteriores</string>
+
     <string name="listas_tvListaAtual">Lista Atual</string>
     <string name="listas_tvProdutos">Produtos</string>
+
     <string name="fazerCompras_tvFazerCompras">Fazer Compras</string>
     <string name="fazerCompras_tvVerLista">Ver Lista de Produtos</string>
     <string name="fazerCompras_tvNomeSupermercado">Supermercado:</string>
-    <string name="fazerCompras_btnCalcularRota">Calcular Rota</string>
+    <string name="fazerCompras_btnCalcularRota">Ir para o supermercado</string>
+
     <string name="estatisticas_graficoProdutos">Variação Produtos</string>
     <string name="estatisticas_graficoCategorias">Variação Categorias</string>
     <string name="estatisticas_graficoGeral">Variação Geral</string>

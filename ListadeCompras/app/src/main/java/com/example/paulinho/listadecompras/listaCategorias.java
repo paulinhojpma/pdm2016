@@ -3,6 +3,7 @@ package com.example.paulinho.listadecompras;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.database.DataSetObserver;
+import android.graphics.Color;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ExpandableListView;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 
@@ -38,9 +40,9 @@ public class listaCategorias extends BaseExpandableListAdapter{
     private String nomeLista;
     private DatabaseReference ref;
     CheckBox check;
-   TextView texto;
+    TextView texto;
     double tot;
-   // Produto p;
+    // Produto p;
 
     public listaCategorias(List<String> categorias, Map<String, List<Produto>> produtos, Context context, FirebaseDatabase base, String nomeLista) {
         this.context = context;
@@ -91,20 +93,24 @@ public class listaCategorias extends BaseExpandableListAdapter{
     public View getGroupView(int i, boolean b, View view, ViewGroup viewGroup) {
         TextView texto;
         String categoria=(String)getGroup(i);
-        View covert;
-            if (view == null) {
-                LayoutInflater li = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                covert = li.inflate(R.layout.lista_categoria, null);
-            }else{
-                covert=view;
-            }
+        View covert ;
 
-            texto = (TextView) covert.findViewById(R.id.texto_categoria);
+        if (view == null) {
+            LayoutInflater li = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            covert = li.inflate(R.layout.lista_categoria, null);
+        }else{
+            covert=view;
+        }
 
-            texto.setText(categoria);
+        texto = (TextView) covert.findViewById(R.id.texto_categoria);
+
+        texto.setText(categoria);
+
+        ExpandableListView mExpandableListView = (ExpandableListView) viewGroup;
+        mExpandableListView.expandGroup(i);
 
 
-            //view.setBackgroundColor();
+        //view.setBackgroundColor();
 
 
 
@@ -126,15 +132,17 @@ public class listaCategorias extends BaseExpandableListAdapter{
         }
         texto= (TextView) covert.findViewById(R.id.text_produto);
 
-
-
+        if(p.isComprado())
+            covert.setBackgroundColor(R.color.Grey);
+        else if(!p.isComprado())
+            covert.setBackgroundColor(Color.WHITE);
 
 
 
 
 
         texto.setText(p.toString());
-       if (p.isComprado()){
+        if (p.isComprado()){
             //texto.setBackgroundColor();
         }
         Log.i("BLACKLIST", "Quarto: "+p.getId());

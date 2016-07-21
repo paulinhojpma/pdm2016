@@ -4,14 +4,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/whiteBack"
     tools:context=".FazerComprasActivity">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.1"
+        android:layout_weight="9"
         android:gravity="center">
         <Button
             android:id="@+id/btn_verLista_FazerCompras"
+            android:textAllCaps="false"
+            android:textSize="16dp"
+            android:background="@color/Orange"
             android:layout_width="300sp"
             android:layout_height="100sp"
             android:text="@string/fazerCompras_tvVerLista"/>
@@ -25,21 +29,24 @@
         android:gravity="center">
         <TextView
             android:id="@+id/tv_nomeSupermercado_fazerCompras"
+            android:textSize="15dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.5"
             android:paddingLeft="20sp"
-            android:gravity="center_vertical"
+            android:layout_marginBottom="40sp"
             android:text="@string/fazerCompras_tvNomeSupermercado"/>
         <ImageView
+            android:src="@drawable/maps"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="8"/>
+            android:layout_height="250dp"
+            android:layout_marginBottom="15dp"/>
         <Button
             android:id="@+id/btn_calcRota_fazerCompras"
+            android:textAllCaps="false"
+            android:textSize="16dp"
+            android:background="@color/Blue"
             android:layout_width="300sp"
-            android:layout_height="wrap_content"
-            android:layout_weight=".3"
+            android:layout_height="80sp"
             android:text="@string/fazerCompras_btnCalcularRota"/>
     </LinearLayout>
 </LinearLayout>

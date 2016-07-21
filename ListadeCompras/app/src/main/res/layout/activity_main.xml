@@ -4,6 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/whiteBack"
+    android:paddingTop="15dp"
     tools:context="com.example.paulinho.listadecompras.MainActivity">
     <LinearLayout
         android:layout_width="match_parent"
@@ -12,6 +14,9 @@
         android:gravity="center">
         <Button
             android:id="@+id/btn_fazerCompras_main"
+            android:background="@color/Orange"
+            android:textSize="18dp"
+            android:textAllCaps="false"
             android:layout_width="300sp"
             android:layout_height="100sp"
             android:text="@string/main_btnCompras"/>
@@ -19,33 +24,33 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="4"
+        android:layout_weight="3"
         android:gravity="center">
         <ImageView
             android:id="@+id/img_Main"
+            android:src="@mipmap/ic_launcher"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="200sp" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:layout_weight="1.5"
         android:orientation="vertical"
         android:gravity="center">
         <Button
             android:id="@+id/btn_listas_main"
+            android:background="@color/Blue"
+            android:textAllCaps="false"
             android:layout_width="300sp"
+            android:layout_marginBottom="15dp"
             android:layout_height="wrap_content"
             android:text="@string/main_btnListas"/>
         <Button
-            android:id="@+id/btn_produtos_main"
-            android:layout_width="300sp"
-            android:layout_height="wrap_content"
-            android:text="@string/main_btnProdutos"
-            />
-        <Button
             android:id="@+id/btn_info_main"
+            android:background="@color/Brown"
+            android:textAllCaps="false"
             android:layout_width="300sp"
             android:layout_height="wrap_content"
             android:text="@string/main_btnEstatisticas"/>

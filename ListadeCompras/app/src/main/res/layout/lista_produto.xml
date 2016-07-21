@@ -9,7 +9,7 @@
         android:layout_height="match_parent"
         android:id="@+id/text_produto"
         android:layout_weight="9"
-
+        android:textSize="17sp"
         android:layout_gravity="center"/>
 
     <!--<CheckBox

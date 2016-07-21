@@ -1,5 +1,6 @@
 package com.example.paulinho.listadecompras;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -23,9 +24,8 @@ public class MainActivity extends AppCompatActivity {
 
     private Button btnFazerCompras;
     private Button btnListas;
-    private Button btnProdutos;
     private Button btnEstatisticas;
-    private final int COMPRAS=0, LISTAS=1, PRODUTOS=2, ESTATISTICAS=3;
+    private final int COMPRAS=0, LISTAS=1, ESTATISTICAS=2;
     //String v, chave;
     FirebaseDatabase base;
     DatabaseReference ref;
@@ -39,10 +39,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         this.btnFazerCompras = (Button) findViewById(R.id.btn_fazerCompras_main);
         this.btnListas       = (Button) findViewById(R.id.btn_listas_main);
-        this.btnProdutos     = (Button) findViewById(R.id.btn_produtos_main);
         this.btnEstatisticas = (Button) findViewById(R.id.btn_info_main);
         this.setIdsOnButtons();
         this.setButtonListeners();
+
 
 
 
@@ -117,20 +117,16 @@ public class MainActivity extends AppCompatActivity {
    private void setIdsOnButtons(){
         this.btnFazerCompras.setId(COMPRAS);
         this.btnListas.setId(LISTAS);
-        this.btnProdutos.setId(PRODUTOS);
         this.btnEstatisticas.setId(ESTATISTICAS);
     }
 
     private void setButtonListeners() {
         this.btnFazerCompras.setOnClickListener(new mainScrreenButtonClick());
         this.btnListas.setOnClickListener(new mainScrreenButtonClick());
-        this.btnProdutos.setOnClickListener(new mainScrreenButtonClick());
         this.btnEstatisticas.setOnClickListener(new mainScrreenButtonClick());
     }
 
     class mainScrreenButtonClick implements View.OnClickListener{
-
-        private final int COMPRAS=0, LISTAS=1, PRODUTOS=2, ESTATISTICAS=3;
 
         @Override
         public void onClick(View v) {
@@ -139,7 +135,6 @@ public class MainActivity extends AppCompatActivity {
             switch (v.getId()){
                 case COMPRAS     : {intent = new Intent(c, FazerComprasActivity.class); break;}
                 case LISTAS      : {intent = new Intent(c, ListaDeListasActivity.class);break;}
-                case PRODUTOS    : {intent = new Intent(c, ListasActivity.class);       break;}
                 case ESTATISTICAS: {intent = new Intent(c, EstatisticasActivity.class); break;}
                 default          : {break;}
             }

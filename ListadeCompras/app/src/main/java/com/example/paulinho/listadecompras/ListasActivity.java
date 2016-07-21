@@ -134,7 +134,7 @@ public class ListasActivity extends AppCompatActivity {
 
 
     public Map<String, List<Produto>> carregarCategorias(String categoria, List<Produto> produtos){
-       List<Produto> grao=new ArrayList<Produto>();
+        List<Produto> grao=new ArrayList<Produto>();
         List<Produto> frio=new ArrayList<Produto>();
         List<Produto> bebida=new ArrayList<Produto>();
         List<Produto> carne=new ArrayList<Produto>();
@@ -143,39 +143,39 @@ public class ListasActivity extends AppCompatActivity {
         List<Produto> verdura=new ArrayList<Produto>();
 
         Map<String, List<Produto>>  mapaProduto = new HashMap<String, List<Produto>>();
-       for (Produto p: produtos) {
+        for (Produto p: produtos) {
 
-           switch (p.getCategoria()){
-               case "grãos":
-                   grao.add(p);
-                   //mapaProduto.put(p.getCategoria(), grao);
-                   break;
-               case "frios":
-                   frio.add(p);
-                   //mapaProduto.put(p.getCategoria(), frio);
-                   break;
-               case "bebida":
-                   bebida.add(p);
-                   //mapaProduto.put(p.getCategoria(), bebida);
-                   break;
-               case "carnes":
-                   carne.add(p);
-                   //mapaProduto.put(p.getCategoria(), carne);
-                   break;
-               case "higiene":
-                   higiene.add(p);
-                   //mapaProduto.put(p.getCategoria(), higiene);
-                   break;
-               case "limpeza":
-                   limpeza.add(p);
-                   //mapaProduto.put(p.getCategoria(), limpeza);
-                   break;
-               case "frutas e verduras":
-                   verdura.add(p);
-                   break;
-               default:
-                   Log.i("BLACKLIST", "não existe categorias");
-           }
+            switch (p.getCategoria()){
+                case "grãos":
+                    grao.add(p);
+                    //mapaProduto.put(p.getCategoria(), grao);
+                    break;
+                case "frios":
+                    frio.add(p);
+                    //mapaProduto.put(p.getCategoria(), frio);
+                    break;
+                case "bebida":
+                    bebida.add(p);
+                    //mapaProduto.put(p.getCategoria(), bebida);
+                    break;
+                case "carnes":
+                    carne.add(p);
+                    //mapaProduto.put(p.getCategoria(), carne);
+                    break;
+                case "higiene":
+                    higiene.add(p);
+                    //mapaProduto.put(p.getCategoria(), higiene);
+                    break;
+                case "limpeza":
+                    limpeza.add(p);
+                    //mapaProduto.put(p.getCategoria(), limpeza);
+                    break;
+                case "frutas e verduras":
+                    verdura.add(p);
+                    break;
+                default:
+                    Log.i("BLACKLIST", "não existe categorias");
+            }
 
         }
 
@@ -210,12 +210,12 @@ public class ListasActivity extends AppCompatActivity {
 
 
 
-            if(s.equals("Lista Nova"))
-                criarNovaLista();
-            else{
-                carregaListaAtual();
+        if(s.equals("Lista Nova"))
+            criarNovaLista();
+        else{
+            carregaListaAtual();
 
-            }
+        }
 
 
 
@@ -467,7 +467,7 @@ public class ListasActivity extends AppCompatActivity {
             return false;
         }
     }*/
-   private class ClickItem implements ExpandableListView.OnChildClickListener{
+    private class ClickItem implements ExpandableListView.OnChildClickListener{
 
         @Override
         public boolean onChildClick(ExpandableListView expandableListView, View view, int i, int i1, long l) {
@@ -493,11 +493,11 @@ public class ListasActivity extends AppCompatActivity {
             check.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                        if(b==true){
-                            check.setChecked(true);
-                        }else{
-                            check.setChecked(false);
-                        }
+                    if(b==true){
+                        check.setChecked(true);
+                    }else{
+                        check.setChecked(false);
+                    }
 
                 }
             });
@@ -506,28 +506,18 @@ public class ListasActivity extends AppCompatActivity {
             builder.setPositiveButton("sim", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
-
-
-                    Log.i("BLACKLIST", "CHECAGEM -"+p1.isComprado());
-                    Log.i("BLACKLIST", "CHECAGEM -"+p1.isComprado());
-                    Log.i("BLACKLIST", "CHECAGEM -"+p1.isComprado());
-                    Log.i("BLACKLIST", "CHECAGEM b-"+check.isChecked());
-                    Log.i("BLACKLIST", "CHECAGEM b-"+check.isChecked());
-                    Log.i("BLACKLIST", "CHECAGEM b-"+check.isChecked());
-
-                    if(check.isChecked()){
-                        totalItem+=num.getValue();//-p1.getQuantidade();
-                        totalCompra+=Double.parseDouble(ed.getText().toString())*num.getValue();//  - p1.getQuantidade()* p1.getPreco();
-                    }else{
-                        if(p1.isComprado()){
-                            totalItem -= p1.getQuantidade();
-                            totalCompra -= p1.getQuantidade() * p1.getPreco();
-                        }
-
-
-
-
+                    if(check.isChecked()==true && p1.isComprado()==true){
+                        totalItem+=num.getValue()-p1.getQuantidade();
+                        totalCompra+=Double.parseDouble(ed.getText().toString())*num.getValue()- p1.getQuantidade()* p1.getPreco();
+                    }else if(check.isChecked()==true && p1.isComprado()==false){
+                        totalItem+=num.getValue();
+                        totalCompra+=Double.parseDouble(ed.getText().toString())*num.getValue();
+                    }else if(check.isChecked()==false && p1.isComprado()==true){
+                        totalItem-=p1.getQuantidade();
+                        totalCompra-=p1.getQuantidade()* p1.getPreco();
                     }
+
+
 
                     p1.setQuantidade(num.getValue());
                     p1.setPreco(Double.parseDouble(ed.getText().toString()));
