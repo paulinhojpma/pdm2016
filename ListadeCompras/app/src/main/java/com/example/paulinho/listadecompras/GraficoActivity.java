@@ -31,7 +31,7 @@ public class GraficoActivity extends AppCompatActivity {
     private ListView graphList;
     FirebaseDatabase base;
     DatabaseReference ref;
-
+    private String nomeLista;
 
     double grao;
     double frio;
@@ -49,6 +49,8 @@ public class GraficoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_grafico);
+        Bundle bundle=getIntent().getExtras();
+        nomeLista=bundle.getString("NOME");
         carregaValores();
         createGraph();
     }
@@ -60,6 +62,7 @@ public class GraficoActivity extends AppCompatActivity {
         ArrayList<String> labelsArray = new ArrayList<String>();
 
 
+        Log.i("BLACKLIST", nomeLista);
         GraphView graph = (GraphView) findViewById(R.id.graph);
         BarGraphSeries<DataPoint> series = new BarGraphSeries<DataPoint>(new DataPoint[] {
                 new DataPoint(1, grao),
@@ -116,8 +119,8 @@ public class GraficoActivity extends AppCompatActivity {
 
 
                 //Log.i("BLACKLIST", "chave do produto: "+ref.child("listas/fev-16/produtos/"+ chave).getKey());
-                if(ref.child("listas/fev-16/produtos/"+ dataSnapshot.getKey()).getKey().equals(dataSnapshot.getKey())){
-                    ref.child("listas/spock/produtos/"+ dataSnapshot.getKey()).addListenerForSingleValueEvent(new ValueEventListener() {
+                if(ref.child("listas/"+nomeLista+"/produtos/"+ dataSnapshot.getKey()).getKey().equals(dataSnapshot.getKey())){
+                    ref.child("listas/"+nomeLista+"/produtos/"+ dataSnapshot.getKey()).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             Produto p=new Produto();

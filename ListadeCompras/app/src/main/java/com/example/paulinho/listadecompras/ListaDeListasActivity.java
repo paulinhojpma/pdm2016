@@ -34,6 +34,13 @@ public class ListaDeListasActivity extends AppCompatActivity {
     private ListView listaVelhas;
     private List<String> listas;
     private ArrayAdapter<String> adapter;
+    String nomeLista;
+    List<String> itemAntigo;
+
+    private ListView listaAntiga;
+    List<String> listaAntigas;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,10 +53,13 @@ public class ListaDeListasActivity extends AppCompatActivity {
         listas= new ArrayList<String>();
 
 
+
         setIdsOnButtons();
         setButtonListeners();
         carregarListasAntigas();
         criarLista();
+
+
 
 
     }
@@ -136,7 +146,7 @@ public class ListaDeListasActivity extends AppCompatActivity {
                 //Log.i("BLACKLIST",dataSnapshot.child("aberta").getValue(boolean.class).booleanValue()+"");
                 if(dataSnapshot.child("aberta").getValue()!=null){
                     if (!dataSnapshot.child("aberta").getValue(boolean.class)) {
-                        Lista l = new Lista();
+                    Lista l = new Lista();
 
                         l.setNome(dataSnapshot.getKey());
                         l.setPeriodo(dataSnapshot.child("periodo").getValue(String.class));
@@ -147,19 +157,7 @@ public class ListaDeListasActivity extends AppCompatActivity {
                             listas.add(l.toString());
                             adapter = new ArrayAdapter<String>(ListaDeListasActivity.this, android.R.layout.simple_list_item_1, listas);
                             listaVelhas.setAdapter(adapter);
-                            /*listaVelhas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                                @Override
-                                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                                    AlertDialog.Builder builder=new AlertDialog.Builder(ListaDeListasActivity.this);
 
-                                    builder.setTitle("Alterar Preço e quantidade");
-                                    builder.setPositiveButton("sim", null);
-                                    builder.setNegativeButton("cancelar",null);
-
-                                    builder.create().show();
-
-                                }
-                            });*/
 
                         }
 
@@ -192,6 +190,49 @@ public class ListaDeListasActivity extends AppCompatActivity {
         //ref.child("listas").removeEventListener(listener);
     }
 
+   /* private class ClickItemAntigo implements AdapterView.OnItemClickListener{
 
+        @Override
+        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+            nomeLista=adapterView.getAdapter().getItem(i).toString();
+            AlertDialog.Builder builder =new AlertDialog.Builder(ListaDeListasActivity.this);
+            List<String> lista=new ArrayList<String>();
+            builder.setTitle(nomeLista);
+            base=FirebaseDatabase.getInstance();
+            ref=base.getReference("Supermercados/listas");
+            ref.child(nomeLista).addChildEventListener(new ChildEventListener() {
+                @Override
+                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                    String n=dataSnapshot.get
+                }
+
+                @Override
+                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                }
+
+                @Override
+                public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+                }
+
+                @Override
+                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+
+
+
+
+
+
+        }
+    }*/
 
 }
