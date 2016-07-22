@@ -21,5 +21,5 @@
 
     <string name="estatisticas_graficoProdutos">Variação Produtos</string>
     <string name="estatisticas_graficoCategorias">Variação Categorias</string>
-    <string name="estatisticas_graficoGeral">Variação Geral</string>
+    <string name="estatisticas_graficoGeral">Gerar Gráficos</string>
 </resources>

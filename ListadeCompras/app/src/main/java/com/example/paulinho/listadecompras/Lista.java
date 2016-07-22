@@ -1,5 +1,8 @@
 package com.example.paulinho.listadecompras;
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -83,7 +86,12 @@ public class Lista {
         String txt="";
         txt+="Lista: "+nome;
         txt+="\nNome: "+ periodo;
-        txt+="\nTotal: "+ total;
+        NumberFormat format=NumberFormat.getInstance();
+        format.setMaximumFractionDigits(2);
+        format.setMinimumFractionDigits(2);
+        format.setRoundingMode(RoundingMode.HALF_UP);
+        double t=Double.valueOf(format.format(total));
+        txt+="\nTotal: "+ t;
         return txt;
     }
 

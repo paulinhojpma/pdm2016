@@ -31,6 +31,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -527,7 +530,14 @@ public class ListasActivity extends AppCompatActivity {
                     ref.child(extra+"/produtos/"+p1.getId()+"/comprado").setValue(p1.isComprado());
                     ref.child(extra+"/total").setValue(totalCompra);
                     qtTotal.setText("Quantidade de mercadorias: "+totalItem);
-                    total.setText("Valor total atual: "+ totalCompra);
+                    //DecimalFormat df=new DecimalFormat("0,##");
+
+                    NumberFormat format=NumberFormat.getInstance();
+                    format.setMaximumFractionDigits(2);
+                    format.setMinimumFractionDigits(2);
+                    format.setRoundingMode(RoundingMode.HALF_UP);
+                    double t=Double.valueOf(format.format(totalCompra));
+                    total.setText("Valor total atual: "+ t);
                     //txt.setText(p.toString());
                     atualizaAdapter(categ, categorias, extra);
 
